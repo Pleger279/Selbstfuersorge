@@ -11,44 +11,41 @@ def line(i, bold):
         "internal_title": "Titel" if bold else f"Schritt {i}",
         "text_expression": part(i),
         "text_family": F + ("Lora-Bold.ttf" if bold else "Lora-Regular.ttf"),
-        "text_size_type": "FIXED_WIDTH", "text_width": 280.0, "text_lines": 4.0,
+        **({} if bold else {"text_size_type": "FIXED_WIDTH", "text_width": 280.0, "text_lines": 4.0}),
         "text_size": 14.0,
         "paint_color": "#FF633806" if bold else "#FF412402",
-        "position_padding_bottom": 0.0,
-        "internal_toggles": {"text_width": 10, "text_size": 10, "position_padding_bottom": 10},
-        "internal_formulas": {
-            # Titel schmaler, damit er die Sonne nicht berührt
-            "text_width": "$gv(w)*0.62$" if bold else "$gv(w)*0.88$",
-            "text_size": "$gv(fs)*1.45$" if bold else "$gv(fs)$",
-            "position_padding_bottom": "$gv(fs)/2.5$" if bold else "$0$",
-        },
+        "internal_toggles": {"text_size": 10} if bold else {"text_width": 10, "text_size": 10},
+        "internal_formulas": {"text_size": "$gv(fs)*1.45$"} if bold else {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$"},
     }
 
-def circle(title, color, size_f, right_f, stroke=False):
-    m = {"internal_type": "ShapeModule", "internal_title": title, "shape_type": "CIRCLE",
-         "shape_width": 100.0, "paint_color": color,
-         "position_anchor": "BOTTOMRIGHT", "position_padding_right": 30.0, "position_offset_y": 50.0,
-         "internal_toggles": {"shape_width": 10, "position_padding_right": 10, "position_offset_y": 10},
-         "internal_formulas": {
-             "shape_width": f"$gv(side)*{size_f}$",
-             "position_padding_right": f"$gv(w)*{right_f}$",
-             "position_offset_y": f"$gv(side)*{size_f}/2$"}}
-    if stroke:
-        m["paint_style"] = "STROKE"; m["paint_stroke"] = 3.0
-        m["internal_toggles"]["paint_stroke"] = 10
-        m["internal_formulas"]["paint_stroke"] = "$gv(side)/120$"
-    return m
+def sun_icon():
+    def c(title, color, f, stroke=False):
+        m = {"internal_type": "ShapeModule", "internal_title": title, "shape_type": "CIRCLE",
+             "shape_width": 20.0, "paint_color": color,
+             "internal_toggles": {"shape_width": 10}, "internal_formulas": {"shape_width": f"$gv(fs)*{f}$"}}
+        if stroke:
+            m["paint_style"] = "STROKE"; m["paint_stroke"] = 2.0
+            m["internal_toggles"]["paint_stroke"] = 10; m["internal_formulas"]["paint_stroke"] = "$gv(fs)/8$"
+        return m
+    return {"internal_type": "OverlapLayerModule", "internal_title": "Sonne",
+            "viewgroup_items": [c("Sonnenring", "#FFFAC775", 1.55, True), c("Sonne", "#FFEF9F27", 1.0)]}
+
+title_row = {"internal_type": "StackLayerModule", "internal_title": "Titelzeile",
+    "config_stacking": "HORIZONTAL_CENTER", "config_margin": 8.0,
+    "position_padding_bottom": 4.0,
+    "internal_toggles": {"config_margin": 10, "position_padding_bottom": 10},
+    "internal_formulas": {"config_margin": "$gv(fs)*0.6$", "position_padding_bottom": "$gv(fs)/2.5$"},
+    "viewgroup_items": []}
 
 sonnenkind = {
     "internal_type": "TextModule", "internal_title": "Sonnenkind-Satz",
     "text_expression": part(4),
     "text_family": F + "Lora-Italic.ttf",
-    "text_size_type": "FIXED_WIDTH", "text_width": 200.0, "text_lines": 3.0, "text_size": 13.0,
+    "text_size_type": "FIXED_WIDTH", "text_width": 280.0, "text_lines": 3.0, "text_size": 13.0,
     "paint_color": "#FF854F0B",
-    "position_anchor": "BOTTOMLEFT", "position_padding_left": 20.0, "position_padding_bottom": 20.0,
-    "internal_toggles": {"text_width": 10, "text_size": 10, "position_padding_left": 10, "position_padding_bottom": 10},
-    "internal_formulas": {"text_width": "$gv(w)*0.6$", "text_size": "$gv(fs)$",
-                          "position_padding_left": "$gv(w)*0.06$", "position_padding_bottom": "$gv(h)*0.05$"},
+    "position_padding_top": 8.0,
+    "internal_toggles": {"text_width": 10, "text_size": 10, "position_padding_top": 10},
+    "internal_formulas": {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$", "position_padding_top": "$gv(fs)*0.7$"},
 }
 
 preset = {
@@ -64,7 +61,7 @@ preset = {
       "w": {"index": 1, "type": "NUMBER", "title": "w", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rwidth)$"},
       "h": {"index": 2, "type": "NUMBER", "title": "h", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rheight)$"},
       "fs": {"index": 3, "type": "NUMBER", "title": "fs", "min": 0, "max": 500, "toggles": 10,
-             "global_formula": "$if(si(rwidth)/16 < si(rheight)/17, si(rwidth)/16, si(rheight)/17)$"},
+             "global_formula": "$if(si(rwidth)/17 < si(rheight)/20, si(rwidth)/17, si(rheight)/20)$"},
     },
     "viewgroup_items": [
       {"internal_type": "ShapeModule", "internal_title": "Hintergrund", "shape_type": "RECT",
@@ -72,15 +69,12 @@ preset = {
        "internal_toggles": {"shape_width": 100, "shape_height": 100, "shape_corners": 10},
        "internal_globals": {"shape_width": "w", "shape_height": "h"},
        "internal_formulas": {"shape_corners": "$gv(side)/14$"}},
-      circle("Sonnenring", "#FFFAC775", 0.50, 0.04, stroke=True),
-      circle("Sonne", "#FFEF9F27", 0.34, 0.12),
-      sonnenkind,
       {"internal_type": "StackLayerModule", "internal_title": "Schritte",
        "config_stacking": "VERTICAL_LEFT", "config_margin": 4.0,
        "position_anchor": "TOP", "position_padding_top": 20.0,
        "internal_toggles": {"config_margin": 10, "position_padding_top": 10},
        "internal_formulas": {"config_margin": "$gv(fs)/2.5$", "position_padding_top": "$gv(h)*0.05$"},
-       "viewgroup_items": [line(0, True), line(1, False), line(2, False), line(3, False)]},
+       "viewgroup_items": [dict(title_row, viewgroup_items=[line(0, True), sun_icon()]), line(1, False), line(2, False), line(3, False), sonnenkind]},
     ],
   },
 }
