@@ -18,4 +18,4 @@ Danach committen und pushen.
 
 `python3 make.py Takeaway.kwgt` erzeugt die KWGT-Vorlage. Nur nötig, wenn sich das Design ändert.
 
-Widget-Grösse: 2 breit, 3 hoch (Seitenverhältnis in tools/fit.py). Schrift: Lora (SIL Open Font License), im Ordner `fonts/`.
+Widget-Grösse: 3 breit, 2 hoch (Seitenverhältnis in tools/fit.py). Schrift: Lora (SIL Open Font License), im Ordner `fonts/`.
