@@ -1,7 +1,7 @@
 import json, zipfile, sys
 URL = "https://raw.githubusercontent.com/Pleger279/Selbstfuersorge/main/zeilen.txt"
 F = "kfile://org.kustom.provider/fonts/"
-FONTDIR = "/tmp/claude-0/kw/build/fonts/"
+FONTDIR = __import__("os").path.dirname(__import__("os").path.abspath(__file__)) + "/fonts/"
 def part(i):
     return f'$tc(split, wg("{URL}", txt), "~", {i})$'
 
@@ -40,7 +40,7 @@ title_row = {"internal_type": "StackLayerModule", "internal_title": "Titelzeile"
 sonnenkind = {
     "internal_type": "TextModule", "internal_title": "Sonnenkind-Satz",
     "text_expression": part(4),
-    "text_family": F + "Lora-Italic.ttf",
+    "text_family": F + "LoraItalicW.ttf",
     "text_size_type": "FIXED_WIDTH", "text_width": 280.0, "text_lines": 3.0, "text_size": 13.0,
     "paint_color": "#FF854F0B",
     "position_padding_top": 8.0,
@@ -77,7 +77,8 @@ preset = {
       "w": {"index": 1, "type": "NUMBER", "title": "w", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rwidth)$"},
       "h": {"index": 2, "type": "NUMBER", "title": "h", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rheight)$"},
       "fs": {"index": 3, "type": "NUMBER", "title": "fs", "min": 0, "max": 500, "toggles": 10,
-             "global_formula": '$if(mu(sqrt, si(rwidth)*si(rheight)*0.8/(tc(len, wg("'+URL+'", txt)))) < if(si(rwidth)/16 < si(rheight)/18.5, si(rwidth)/16, si(rheight)/18.5), mu(sqrt, si(rwidth)*si(rheight)*0.8/(tc(len, wg("'+URL+'", txt)))), if(si(rwidth)/16 < si(rheight)/18.5, si(rwidth)/16, si(rheight)/18.5))$'},
+             # sechster Teil von zeilen.txt = Schriftgrösse als Anteil der Breite (von tools/fit.py berechnet)
+             "global_formula": '$if(tc(split, wg("'+URL+'", txt), "~", 5) > 0, si(rwidth)*tc(split, wg("'+URL+'", txt), "~", 5), si(rwidth)/17.5)$'},
     },
     "viewgroup_items": [
       {"internal_type": "ShapeModule", "internal_title": "Hintergrund", "shape_type": "RECT",
@@ -97,6 +98,7 @@ preset = {
 }
 with zipfile.ZipFile(sys.argv[1], "w", zipfile.ZIP_DEFLATED) as z:
     z.writestr("preset.json", json.dumps(preset, ensure_ascii=False, indent=1))
-    for w in ("Regular", "Bold", "Italic"):
+    for w in ("Regular", "Bold"):
         z.write(FONTDIR + f"Lora-{w}.ttf", f"fonts/Lora-{w}.ttf")
+    z.write(FONTDIR + "Lora-Italic.ttf", "fonts/LoraItalicW.ttf")
 print("ok")
