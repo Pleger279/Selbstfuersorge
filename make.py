@@ -14,8 +14,8 @@ def line(i, bold):
         **({} if bold else {"text_size_type": "FIXED_WIDTH", "text_width": 280.0, "text_lines": 4.0}),
         "text_size": 14.0,
         "paint_color": "#FF633806" if bold else "#FF412402",
-        "internal_toggles": {"text_size": 10} if bold else {"text_width": 10, "text_size": 10},
-        "internal_formulas": {"text_size": "$gv(fs)*1.45$"} if bold else {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$"},
+        "internal_toggles": {"text_size": 10, "position_padding_bottom": 10} if bold else {"text_width": 10, "text_size": 10},
+        "internal_formulas": {"text_size": "$gv(fs)*1.45$", "position_padding_bottom": "$gv(fs)/2.5$"} if bold else {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$"},
     }
 
 def sun_icon():
@@ -48,6 +48,22 @@ sonnenkind = {
     "internal_formulas": {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$", "position_padding_top": "$gv(fs)*0.7$"},
 }
 
+def big_sun():
+    def c(title, color, f, stroke=False):
+        m = {"internal_type": "ShapeModule", "internal_title": title, "shape_type": "CIRCLE",
+             "shape_width": 100.0, "paint_color": color,
+             "internal_toggles": {"shape_width": 10}, "internal_formulas": {"shape_width": f"$gv(side)*{f}$"}}
+        if stroke:
+            m["paint_style"] = "STROKE"; m["paint_stroke"] = 3.0
+            m["internal_toggles"]["paint_stroke"] = 10; m["internal_formulas"]["paint_stroke"] = "$gv(side)/110$"
+        return m
+    return {"internal_type": "OverlapLayerModule", "internal_title": "Grosse Sonne",
+            "position_anchor": "BOTTOMRIGHT", "position_offset_y": -60.0,
+            "internal_toggles": {"position_offset_y": 10},
+            # negativer Wert schiebt nach unten (positiver hatte die Sonne nach oben verschoben)
+            "internal_formulas": {"position_offset_y": "$0-gv(side)*0.24$"},
+            "viewgroup_items": [c("Sonnenring", "#AAFAC775", 0.80, True), c("Sonne", "#73EF9F27", 0.56)]}
+
 preset = {
   "preset_info": {"archive": None, "author": "", "description": "Takeaway aus dem Projekt Selbstfürsorge",
     "email": "", "features": "", "pflags": 0, "width": 400, "height": 400, "locked": False,
@@ -69,12 +85,13 @@ preset = {
        "internal_toggles": {"shape_width": 100, "shape_height": 100, "shape_corners": 10},
        "internal_globals": {"shape_width": "w", "shape_height": "h"},
        "internal_formulas": {"shape_corners": "$gv(side)/14$"}},
+      big_sun(),
       {"internal_type": "StackLayerModule", "internal_title": "Schritte",
        "config_stacking": "VERTICAL_LEFT", "config_margin": 4.0,
        "position_anchor": "TOP", "position_padding_top": 20.0,
        "internal_toggles": {"config_margin": 10, "position_padding_top": 10},
        "internal_formulas": {"config_margin": "$gv(fs)/2.5$", "position_padding_top": "$gv(h)*0.05$"},
-       "viewgroup_items": [dict(title_row, viewgroup_items=[line(0, True), sun_icon()]), line(1, False), line(2, False), line(3, False), sonnenkind]},
+       "viewgroup_items": [line(0, True), line(1, False), line(2, False), line(3, False), sonnenkind]},
     ],
   },
 }
