@@ -27,6 +27,7 @@ preset = {
     "release": 377435216, "title": "Takeaway", "version": 13, "xscreens": 0, "yscreens": 0},
   "preset_root": {
     "internal_type": "RootLayerModule",
+    "internal_events": [{"type": "SINGLE_TAP", "action": "KUSTOM_ACTION", "kustom_action": "TEXT_UPDATE"}],
     "globals_list": {
       "side": {"index": 0, "type": "NUMBER", "title": "side", "min": 0, "max": 2000, "toggles": 10,
                "global_formula": "$if(si(rwidth)>si(rheight), si(rheight), si(rwidth))$"},
