@@ -15,7 +15,7 @@ def line(i, bold):
         "text_size": 14.0,
         "paint_color": "#FF633806" if bold else "#FF412402",
         "internal_toggles": {"text_size": 10, "position_padding_bottom": 10} if bold else {"text_width": 10, "text_size": 10},
-        "internal_formulas": {"text_size": "$gv(fs)*1.45$", "position_padding_bottom": "$gv(fs)/2.5$"} if bold else {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$"},
+        "internal_formulas": {"text_size": "$gv(fs)*1.45$", "position_padding_bottom": "$gv(fs)/4$"} if bold else {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$"},
     }
 
 def sun_icon():
@@ -34,7 +34,7 @@ title_row = {"internal_type": "StackLayerModule", "internal_title": "Titelzeile"
     "config_stacking": "HORIZONTAL_CENTER", "config_margin": 8.0,
     "position_padding_bottom": 4.0,
     "internal_toggles": {"config_margin": 10, "position_padding_bottom": 10},
-    "internal_formulas": {"config_margin": "$gv(fs)*0.6$", "position_padding_bottom": "$gv(fs)/2.5$"},
+    "internal_formulas": {"config_margin": "$gv(fs)*0.6$", "position_padding_bottom": "$gv(fs)/4$"},
     "viewgroup_items": []}
 
 sonnenkind = {
@@ -45,7 +45,7 @@ sonnenkind = {
     "paint_color": "#FF854F0B",
     "position_padding_top": 8.0,
     "internal_toggles": {"text_width": 10, "text_size": 10, "position_padding_top": 10},
-    "internal_formulas": {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$", "position_padding_top": "$gv(fs)*0.7$"},
+    "internal_formulas": {"text_width": "$gv(w)*0.88$", "text_size": "$gv(fs)$", "position_padding_top": "$gv(fs)*0.5$"},
 }
 
 def big_sun():
@@ -77,7 +77,7 @@ preset = {
       "w": {"index": 1, "type": "NUMBER", "title": "w", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rwidth)$"},
       "h": {"index": 2, "type": "NUMBER", "title": "h", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rheight)$"},
       "fs": {"index": 3, "type": "NUMBER", "title": "fs", "min": 0, "max": 500, "toggles": 10,
-             "global_formula": "$if(si(rwidth)/16 < si(rheight)/18.5, si(rwidth)/16, si(rheight)/18.5)$"},
+             "global_formula": '$if(mu(sqrt, si(rwidth)*si(rheight)*0.8/(tc(len, wg("'+URL+'", txt)))) < if(si(rwidth)/16 < si(rheight)/18.5, si(rwidth)/16, si(rheight)/18.5), mu(sqrt, si(rwidth)*si(rheight)*0.8/(tc(len, wg("'+URL+'", txt)))), if(si(rwidth)/16 < si(rheight)/18.5, si(rwidth)/16, si(rheight)/18.5))$'},
     },
     "viewgroup_items": [
       {"internal_type": "ShapeModule", "internal_title": "Hintergrund", "shape_type": "RECT",
@@ -90,7 +90,7 @@ preset = {
        "config_stacking": "VERTICAL_LEFT", "config_margin": 4.0,
        "position_anchor": "TOP", "position_padding_top": 20.0,
        "internal_toggles": {"config_margin": 10, "position_padding_top": 10},
-       "internal_formulas": {"config_margin": "$gv(fs)/2.5$", "position_padding_top": "$gv(h)*0.05$"},
+       "internal_formulas": {"config_margin": "$gv(fs)/4$", "position_padding_top": "$gv(h)*0.04$"},
        "viewgroup_items": [line(0, True), line(1, False), line(2, False), line(3, False), sonnenkind]},
     ],
   },
