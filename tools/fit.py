@@ -18,7 +18,8 @@ TEXT_W = 0.88 * W
 LINE = 1.32           # Zeilenhöhe im Verhältnis zur Schriftgrösse (gemessen am Screenshot)
 TOP = 0.04 * H
 BOTTOM = 0.035 * H    # Rand unten, der frei bleiben soll
-SAFETY = 0.93         # Reserve für Abweichungen beim Rendern
+SAFETY = 0.97         # Reserve für Abweichungen beim Rendern
+CAL = 0.95            # Korrektur: am Handy-Screenshot ist der Text ca. 5 % weniger hoch als hier berechnet
 MAX_K = 1 / 20.0      # nicht grösser als das, sonst wirkt es klobig
 
 
@@ -43,7 +44,7 @@ def height(parts, s):
         h += lines(st, reg) * LINE * s + s / 4
     if sk:
         h += s * 0.5 + lines(sk, ital) * LINE * s
-    return h + BOTTOM
+    return h * CAL + BOTTOM
 
 
 def fit(parts):
