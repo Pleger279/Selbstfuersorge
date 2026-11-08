@@ -13,13 +13,13 @@ FONTS = Path(__file__).resolve().parent.parent / "fonts"
 ROOT = Path(__file__).resolve().parent.parent
 
 W = 1000.0
-H = W * 1.12          # Seitenverhältnis des 2x2-Widgets auf dem Pixel (gemessen am Screenshot)
+H = W * 1.72          # Seitenverhältnis des 2x3-Widgets (2 breit, 3 hoch) auf dem Pixel, aus Screenshot geschätzt
 TEXT_W = 0.88 * W
 LINE = 1.32           # Zeilenhöhe im Verhältnis zur Schriftgrösse (gemessen am Screenshot)
 TOP = 0.04 * H
 BOTTOM = 0.035 * H    # Rand unten, der frei bleiben soll
 SAFETY = 0.93         # Reserve für Abweichungen beim Rendern
-MAX_K = 1 / 15.0      # nicht grösser als das, sonst wirkt es klobig
+MAX_K = 1 / 12.0      # nicht grösser als das, sonst wirkt es klobig
 
 
 def lines(text, font):

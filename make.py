@@ -39,8 +39,8 @@ title_row = {"internal_type": "StackLayerModule", "internal_title": "Titelzeile"
 
 sonnenkind = {
     "internal_type": "TextModule", "internal_title": "Sonnenkind-Satz",
-    "text_expression": part(4),
-    "text_family": F + "LoraItalicW.ttf",
+    "text_expression": "[i]" + part(4) + "[/i]",
+    "text_family": F + "Lora-Regular.ttf",
     "text_size_type": "FIXED_WIDTH", "text_width": 280.0, "text_lines": 3.0, "text_size": 13.0,
     "paint_color": "#FF854F0B",
     "position_padding_top": 8.0,
@@ -100,5 +100,4 @@ with zipfile.ZipFile(sys.argv[1], "w", zipfile.ZIP_DEFLATED) as z:
     z.writestr("preset.json", json.dumps(preset, ensure_ascii=False, indent=1))
     for w in ("Regular", "Bold"):
         z.write(FONTDIR + f"Lora-{w}.ttf", f"fonts/Lora-{w}.ttf")
-    z.write(FONTDIR + "Lora-Italic.ttf", "fonts/LoraItalicW.ttf")
 print("ok")
