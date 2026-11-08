@@ -77,7 +77,7 @@ preset = {
       "w": {"index": 1, "type": "NUMBER", "title": "w", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rwidth)$"},
       "h": {"index": 2, "type": "NUMBER", "title": "h", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rheight)$"},
       "fs": {"index": 3, "type": "NUMBER", "title": "fs", "min": 0, "max": 500, "toggles": 10,
-             "global_formula": "$if(si(rwidth)/17 < si(rheight)/20, si(rwidth)/17, si(rheight)/20)$"},
+             "global_formula": "$if(si(rwidth)/15 < si(rheight)/17.5, si(rwidth)/15, si(rheight)/17.5)$"},
     },
     "viewgroup_items": [
       {"internal_type": "ShapeModule", "internal_title": "Hintergrund", "shape_type": "RECT",
