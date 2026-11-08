@@ -78,7 +78,7 @@ preset = {
       "h": {"index": 2, "type": "NUMBER", "title": "h", "min": 0, "max": 4000, "toggles": 10, "global_formula": "$si(rheight)$"},
       "fs": {"index": 3, "type": "NUMBER", "title": "fs", "min": 0, "max": 500, "toggles": 10,
              # sechster Teil von zeilen.txt = Schriftgrösse als Anteil der Breite (von tools/fit.py berechnet)
-             "global_formula": '$if(tc(split, wg("'+URL+'", txt), "~", 5) > 0, si(rwidth)*tc(split, wg("'+URL+'", txt), "~", 5), si(rwidth)/17.5)$'},
+             "global_formula": '$if(tc(len, tc(split, wg("'+URL+'", txt), "~", 5)) > 1, si(rwidth)*10/(tc(split, wg("'+URL+'", txt), "~", 5)), si(rwidth)/17.5)$'},
     },
     "viewgroup_items": [
       {"internal_type": "ShapeModule", "internal_title": "Hintergrund", "shape_type": "RECT",

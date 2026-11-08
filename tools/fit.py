@@ -1,7 +1,8 @@
 """Berechnet die Schriftgrösse für das Takeaway-Widget, sodass alle Teile sicher Platz haben.
 
 Aufruf: python3 tools/fit.py "Titel" "1. ..." "2. ..." "3. ..." "Sonnenkind-Satz"
-Schreibt zeilen.txt mit einem sechsten Teil: Schriftgrösse als Anteil der Widget-Breite.
+Schreibt zeilen.txt mit einem sechsten Teil: Breite geteilt durch Schriftgrösse, mal 10, als ganze Zahl
+(z.B. 172 heisst Schrift = Breite / 17.2). Ganze Zahl, weil Dezimalpunkte je nach Sprache falsch gelesen werden.
 Das Layout hier entspricht make.py (Abstände, Breiten, Zeilenhöhe).
 """
 import sys
@@ -63,6 +64,6 @@ if __name__ == "__main__":
     if len(parts) not in (4, 5):
         sys.exit("Erwartet: Titel, drei Schritte, optional Sonnenkind-Satz")
     k = fit(parts)
-    (ROOT / "zeilen.txt").write_text("~".join(parts + [f"{k:.4f}"]))
+    (ROOT / "zeilen.txt").write_text("~".join(parts + [str(round(10 / k))]))
     (ROOT / "takeaway.txt").write_text("\n".join(parts) + "\n")
     print(f"Schriftgrösse: Breite / {1 / k:.1f}")
